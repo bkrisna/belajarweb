@@ -1,4 +1,7 @@
 import Movie from "./movie.js";
+import smallPoster from '../../images/w154/default_poster.jpg';
+import bigPoster from '../../images/w342/default_poster.jpg';
+import smallFoto from '../../images/w45/default_profile.jpg';
 
 class TmdbApi {
 
@@ -19,7 +22,7 @@ class TmdbApi {
     }
 
     static get DEFAULT_URL () {
-        return "../src/images/";
+        return "../../images/";
     }
 
     static get DEFAULT_POSTER() {
@@ -53,9 +56,12 @@ class TmdbApi {
     }
 
     static getPicPath(img, img_size) {
-        const img_url = (img) ? TmdbApi.IMG_URL : TmdbApi.DEFAULT_URL;
-        const image = (img) ? img : TmdbApi.DEFAULT_POSTER;
-        return `${img_url}${img_size}/${image}`;
+        const defPath = new Map();
+        defPath.set(TmdbApi.BIG_POSTER, bigPoster);
+        defPath.set(TmdbApi.SMALL_POSTER, smallPoster);
+        defPath.set(TmdbApi.SMALL_FOTO, smallFoto);
+
+        return (img) ? `${TmdbApi.IMG_URL}${img_size}/${img}` : defPath.get(img_size);
     }
 
     static async getMovieDetail(movieid) {
